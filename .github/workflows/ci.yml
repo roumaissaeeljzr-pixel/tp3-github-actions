@@ -3,6 +3,8 @@ name: CI - Tests Python
 
 on:
   push:
+  workflow_dispatch:
+
 
 jobs:
   tests:
