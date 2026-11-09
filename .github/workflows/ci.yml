@@ -23,5 +23,5 @@ jobs:
         run: python -m pip install -r requirements-dev.txt
 
       - name: Executer les tests et mesurer la couverture
-        run: python -m pytest -v --cov=app --cov-report=term-missing --cov-fail-under=80
+        run: python -m pytest -v --cov=app --cov-report=term-missing --cov-fail-under=99
 
