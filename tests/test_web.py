@@ -1,0 +1,73 @@
+import pytest
+from app.web import create_app
+
+
+@pytest.fixture
+def client():
+    app = create_app()
+    app.config["TESTING"] = True
+    return app.test_client()
+
+
+def test_message_normal_api(client):
+    reponse = client.post(
+        "/moderate",
+        json={"message": "bonjour"}
+    )
+
+    assert reponse.status_code == 200
+    assert reponse.get_json() == {
+        "decision": "autoriser"
+    }
+
+
+def test_message_spam_api(client):
+    reponse = client.post(
+        "/moderate",
+        json={"message": "ceci est du SPAM"}
+    )
+
+    assert reponse.status_code == 200
+    assert reponse.get_json() == {
+        "decision": "bloquer"
+    }
+
+
+@pytest.mark.parametrize("donnees", [
+    {},
+    {"message": 42},
+])
+def test_message_invalide_api(client, donnees):
+    reponse = client.post(
+        "/moderate",
+        json=donnees
+    )
+
+    assert reponse.status_code == 400
+    assert reponse.get_json() == {
+        "error": "Invalid message"
+    }
+
+
+def test_message_espaces_api(client):
+    reponse = client.post(
+        "/moderate",
+        json={"message": " "}
+    )
+
+    assert reponse.status_code == 400
+    assert reponse.get_json() == {
+        "error": "Invalid message"
+    }
+
+
+def test_corps_liste_api(client):
+    reponse = client.post(
+        "/moderate",
+        json=["bonjour"]
+    )
+
+    assert reponse.status_code == 400
+    assert reponse.get_json() == {
+        "error": "JSON object required"
+    }
