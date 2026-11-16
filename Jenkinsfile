@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Hello') {
             steps {
-                echo 'Hello depuis un pipeline déclaratif'
+                echo 'Bonjour ! Mon pipeline a été modifié.'
             }
         }
 
