@@ -18,7 +18,7 @@ pipeline {
 
         stage('Installation des dependances') {
             steps {
-                bat '"C:/Users/GIGABYTE/AppData/Local/Microsoft/WindowsApps/python.exe" -m pip install -r requirements.txt'
+                bat '"C:/Users/GIGABYTE/AppData/Local/Microsoft/WindowsApps/python.exe" -m pip install -r requirements-dev.txt'
             }
         }
 
